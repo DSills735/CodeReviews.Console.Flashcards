@@ -11,7 +11,7 @@ namespace Flashcards.Study
         internal static void SingleSubjectQuiz()
         {
             Console.Clear();
-            SqlConnection connection = new SqlConnection(connectionString);
+            using SqlConnection connection = new SqlConnection(connectionString);
 
             Console.WriteLine("What subject would you like quizzed on?");
 
@@ -20,6 +20,8 @@ namespace Flashcards.Study
             string resp = Console.ReadLine()!;
 
             bool exists = false;
+
+            
 
             while (!exists)
             {
