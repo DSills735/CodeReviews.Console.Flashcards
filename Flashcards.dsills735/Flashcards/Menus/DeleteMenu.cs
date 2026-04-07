@@ -7,46 +7,39 @@ internal class DeleteMenu
     {
         Console.Clear();
 
-        Console.WriteLine("Welcome to the delete menu. What do you want to delete?");
+        AnsiConsole.MarkupLine("Welcome to the delete menu. What do you want to delete?");
         Console.WriteLine();
-        AnsiConsole.MarkupLine("[maroon][rapidblink] WARNING!![/][/] Deleting a subject will delete all flashcards within the subject");
+        AnsiConsole.MarkupLine("[maroon][rapidblink]WARNING!![/][/] Deleting a subject will delete all flashcards within the subject");
         Console.WriteLine();
-        AnsiConsole.MarkupLine("[green]1. Individual Flashcard[/]");
-        AnsiConsole.MarkupLine("[red]2. An entire subject[/]");
-        AnsiConsole.MarkupLine("3. Go to the study section.");
-        AnsiConsole.MarkupLine("4. Return to the main menu.");
 
-        string temp = Console.ReadLine().Trim();
+        var choice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select an option:")
+                .AddChoices(
+                    "[green]Individual Flashcard[/]",
+                    "[red]An entire subject[/]",
+                    "Go to the study section",
+                    "Return to the main menu"
+                )
+        );
 
-        switch (temp)
+        switch (choice)
         {
-            case "1":
+            case "[green]Individual Flashcard[/]":
                 Card_Ops.DeleteFlashcard.DeleteSingleFlashcard();
                 break;
 
-            case "2":
+            case "[red]An entire subject[/]":
                 Stack_Ops.DeleteStacks.DeleteStack();
                 break;
 
-            case "3":
+            case "Go to the study section":
                 StudyMenu.StudyHome();
                 break;
 
-            case "4":
+            case "Return to the main menu":
                 MainMenu.HomeScreen();
                 break;
-
-            default:
-                Console.Clear();
-                AnsiConsole.MarkupLine("[rapidblink][maroon]Invalid Response![/][/] Please choose a [bold][underline]valid option from the list[/][/].");
-                AnsiConsole.Status()
-                     .Start("Regenerating options...", ctx =>
-                     {
-                         ctx.Spinner(Spinner.Known.Aesthetic);
-                     });
-                DeleteMenus();
-                break;
-
         }
     }
 }

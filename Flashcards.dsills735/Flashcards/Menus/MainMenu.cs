@@ -8,51 +8,43 @@ internal class MainMenu
     internal static void HomeScreen()
     {
         Console.Clear();
-        AnsiConsole.MarkupLine("[slowblink][Blue]Welcome to the Flashcards app![/][/]");
+        AnsiConsole.MarkupLine("[slowblink][blue]Welcome to the Flashcards app![/][/]");
         Console.WriteLine();
-        AnsiConsole.MarkupLine("1. Add a new subject, or a new flashcard to an existing stack.");
-        AnsiConsole.MarkupLine("2. Study");
-        AnsiConsole.MarkupLine("3. Delete specific cards, or an entire subject");
-        AnsiConsole.MarkupLine("4. View History");
-        AnsiConsole.MarkupLine("[maroon]5. Exit Application[/]");
 
+        var choice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("What would you like to do?")
+                .AddChoices(
+                    "Add a new subject, or a new flashcard to an existing stack",
+                    "Study",
+                    "Delete specific cards, or an entire subject",
+                    "View History",
+                    "[maroon]Exit Application[/]"
+                )
+        );
 
-        string temp = Console.ReadLine().Trim() ;
-
-        switch (temp)
+        switch (choice)
         {
-            case "1":
+            case "Add a new subject, or a new flashcard to an existing stack":
                 CreationMenu.StackCreationMenu();
                 break;
 
-            case "2":
+            case "Study":
                 StudyMenu.StudyHome();
                 break;
 
-            case "3":
+            case "Delete specific cards, or an entire subject":
                 DeleteMenu.DeleteMenus();
                 break;
 
-            case "4":
+            case "View History":
                 Study.ViewHistory.PrintHistoryTable();
                 break;
 
-            case "5":
+            case "[maroon]Exit Application[/]":
                 Environment.Exit(0);
-                break;
-
-            default:
-                Console.Clear();
-                AnsiConsole.MarkupLine("[rapidblink][maroon]Invalid Response![/][/] Please choose a [bold][underline]valid option from the list[/][/]. Thank you");
-                AnsiConsole.Status()
-                     .Start("Regenerating options...", ctx =>
-                     {
-                         ctx.Spinner(Spinner.Known.Aesthetic);
-                     });
-                MainMenu.HomeScreen();
                 break;
         }
     }
-
 
 }

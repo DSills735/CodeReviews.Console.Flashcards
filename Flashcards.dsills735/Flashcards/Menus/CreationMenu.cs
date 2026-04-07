@@ -12,47 +12,36 @@ public class CreationMenu
 
         AnsiConsole.MarkupLine("[slowblink][purple]Welcome to the Creator menu.[/][/]");
         Console.WriteLine();
-        AnsiConsole.MarkupLine("[Green]1. Add a new flashcard to an existing subject.[/]");
-        AnsiConsole.MarkupLine("[Yellow]2. Create a new subject.[/]");
-        AnsiConsole.MarkupLine("[Blue]3. View existing subjects[/]");
-        AnsiConsole.MarkupLine("[Maroon]4. Return to the main menu.[/]");
 
+        var choice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Select an option:")
+                .AddChoices(
+                    "[green]Add a new flashcard to an existing subject[/]",
+                    "[yellow]Create a new subject[/]",
+                    "[blue]View existing subjects[/]",
+                    "[maroon]Return to the main menu[/]"
+                )
+        );
 
-        string temp = Console.ReadLine().Trim() ;
-
-        switch (temp)
+        switch (choice)
         {
-            case "1":
+            case "[green]Add a new flashcard to an existing subject[/]":
                 Card_Ops.FlashcardCreation.CardCreator();
                 break;
 
-            case "2":
+            case "[yellow]Create a new subject[/]":
                 Stack_Ops.StackCreation.CreateStack();
                 break;
 
-            case "3":
+            case "[blue]View existing subjects[/]":
                 Database_Helpers.ViewStacks.DisplayStacks();
                 break;
 
-            case "4":
+            case "[maroon]Return to the main menu[/]":
                 MainMenu.HomeScreen();
                 break;
-
-            default:
-                AnsiConsole.MarkupLine(@"[rapidblink][maroon]Invalid Response![/][/]
-                                                Please choose an option [bold][underline]listed above[/][/]. Thank you");
-
-                AnsiConsole.Status()
-                    .Start("Regenerating stacks menu... Please wait before entering your choice.", ctx =>
-                    {
-                        ctx.Spinner(Spinner.Known.Aesthetic);
-                    });
-                StackCreationMenu();
-                break;
         }
-
-
-
     }
-    
+
 }
